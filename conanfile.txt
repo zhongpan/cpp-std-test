@@ -1,0 +1,7 @@
+[requires]
+doctest/2.3.7
+boost/1.72.0
+
+[options]
+boost:header_only=True
+
