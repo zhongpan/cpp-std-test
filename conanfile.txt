@@ -5,3 +5,8 @@ boost/1.72.0
 [options]
 boost:header_only=True
 
+[generators]
+cmake
+
+
+

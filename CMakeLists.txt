@@ -8,24 +8,26 @@ else()
 add_compile_options(-std=c++2a)
 endif()
 
-if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-  message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-  file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.16.1/conan.cmake"
-                "${CMAKE_BINARY_DIR}/conan.cmake"
-                TLS_VERIFY ON)
-endif()
-
-include(${CMAKE_BINARY_DIR}/conan.cmake)
-
-#include(conan.cmake)
-
+#if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+#  message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+#  file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.16.1/conan.cmake"
+#                "${CMAKE_BINARY_DIR}/conan.cmake"
+#                TLS_VERIFY ON)
+#endif()
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-conan" "${CMAKE_SOURCE_DIR}/CMake-codecov/cmake" ${CMAKE_MODULE_PATH})
+include(conan)
 
 conan_cmake_autodetect(settings)
-
-conan_cmake_install(PATH_OR_REFERENCE .
+conan_cmake_install(PATH_OR_REFERENCE ${PROJECT_SOURCE_DIR}
                     BUILD missing
                     REMOTE conan-center
-                    SETTINGS ${settings})              
+                    SETTINGS ${settings})   
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)                    
+conan_basic_setup()
+
+# conan_cmake_run(CONANFILE conanfile.txt
+#                 BASIC_SETUP 
+#                 BUILD missing)
 
 #include(CTest)
 enable_testing()
