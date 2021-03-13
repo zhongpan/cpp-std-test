@@ -37,7 +37,10 @@ find_package(codecov)
 file(GLOB_RECURSE SRCS "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 add_executable(cpp-std-test ${SRCS})
-target_link_libraries(cpp-std-test ${CONAN_LIBS} pthread)
+target_link_libraries(cpp-std-test ${CONAN_LIBS})
+if(NOT MSVC)
+target_link_libraries(cpp-std-test pthread)
+endif()
 install(TARGETS cpp-std-test DESTINATION bin)
 add_coverage(cpp-std-test)
 
